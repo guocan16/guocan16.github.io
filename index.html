@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>小杨午餐~</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg1: #fff8f0;
+      --bg2: #ffe4e6;
+      --bg3: #fef3c7;
+      --main: #ff6b6b;
+      --main-dark: #ef4444;
+      --gold: #f59e0b;
+      --text: #2b2b2b;
+      --sub: #6b7280;
+      --white: rgba(255, 255, 255, 0.78);
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.12);
+      --radius: 28px;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 20%, rgba(255, 182, 193, 0.35), transparent 18%),
+        radial-gradient(circle at 85% 18%, rgba(255, 223, 128, 0.35), transparent 18%),
+        radial-gradient(circle at 80% 80%, rgba(255, 170, 120, 0.30), transparent 20%),
+        linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+      overflow-x: hidden;
+    }
+
+    .floating-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(10px);
+      opacity: 0.45;
+      z-index: 0;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .orb1 {
+      width: 180px;
+      height: 180px;
+      background: #ffd6a5;
+      top: 60px;
+      left: 40px;
+    }
+
+    .orb2 {
+      width: 220px;
+      height: 220px;
+      background: #fecdd3;
+      right: 60px;
+      top: 120px;
+      animation-delay: 1s;
+    }
+
+    .orb3 {
+      width: 200px;
+      height: 200px;
+      background: #fde68a;
+      left: 50%;
+      bottom: 40px;
+      animation-delay: 2s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-20px) translateX(10px); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: min(1180px, 92%);
+      margin: 38px auto 48px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.65);
+      box-shadow: 0 6px 18px rgba(255,255,255,0.28);
+      font-size: 14px;
+      color: #d9485f;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 16px;
+      border: 1px solid rgba(255,255,255,0.65);
+      backdrop-filter: blur(8px);
+    }
+
+    .hero h1 {
+      font-size: clamp(34px, 5vw, 60px);
+      line-height: 1.1;
+      margin-bottom: 12px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      background: linear-gradient(90deg, #ef4444, #f59e0b, #ec4899);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--sub);
+      max-width: 760px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .main-card {
+      display: grid;
+      grid-template-columns: 1.05fr 1fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .panel {
+      background: rgba(255,255,255,0.62);
+      border: 1px solid rgba(255,255,255,0.65);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      padding: 26px;
+    }
+
+    .left-panel {
+      position: relative;
+      overflow: hidden;
+      min-height: 720px;
+    }
+
+    .left-panel::before {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: rgba(255, 221, 153, 0.28);
+      top: -50px;
+      left: -50px;
+    }
+
+    .left-panel::after {
+      content: "";
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: rgba(255, 182, 193, 0.24);
+      bottom: -50px;
+      right: -30px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section-subtitle {
+      color: var(--sub);
+      line-height: 1.8;
+      margin-bottom: 18px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .box-stage {
+      position: relative;
+      min-height: 430px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 18px 0 24px;
+      z-index: 1;
+    }
+
+    .ring {
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      border: 2px dashed rgba(255, 107, 107, 0.35);
+      animation: rotateRing 12s linear infinite;
+    }
+
+    @keyframes rotateRing {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .spark {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: radial-gradient(circle, #fff 0%, #ffd166 60%, transparent 70%);
+      border-radius: 50%;
+      animation: blink 2.2s infinite ease-in-out;
+    }
+
+    .spark.s1 { top: 72px; left: 100px; }
+    .spark.s2 { top: 96px; right: 118px; animation-delay: .4s; }
+    .spark.s3 { bottom: 110px; left: 120px; animation-delay: .8s; }
+    .spark.s4 { bottom: 80px; right: 100px; animation-delay: 1.2s; }
+
+    @keyframes blink {
+      0%, 100% { transform: scale(0.7); opacity: 0.4; }
+      50% { transform: scale(1.2); opacity: 1; }
+    }
+
+    .blind-box {
+      position: relative;
+      width: 240px;
+      height: 220px;
+      transform-origin: center bottom;
+      transition: transform .25s ease;
+    }
+
+    .blind-box.spinning {
+      animation: shakeBox .12s infinite linear;
+    }
+
+    .blind-box.spinning .box-lid {
+      animation: lidBounce .28s infinite ease-in-out;
+    }
+
+    @keyframes shakeBox {
+      0% { transform: rotate(-3deg) translateX(-2px); }
+      50% { transform: rotate(3deg) translateX(2px); }
+      100% { transform: rotate(-3deg) translateX(-2px); }
+    }
+
+    @keyframes lidBounce {
+      0%, 100% { transform: rotate(0deg) translateY(0); }
+      50% { transform: rotate(-6deg) translateY(-6px); }
+    }
+
+    .box-lid {
+      position: absolute;
+      top: 24px;
+      left: 20px;
+      width: 200px;
+      height: 54px;
+      background: linear-gradient(180deg, #ffbe76, #ff8f6b);
+      border-radius: 18px 18px 12px 12px;
+      box-shadow: 0 8px 14px rgba(0,0,0,0.12);
+      z-index: 3;
+      border: 2px solid rgba(255,255,255,0.5);
+    }
+
+    .box-lid::before,
+    .box-lid::after {
+      content: "";
+      position: absolute;
+      top: -10px;
+      width: 54px;
+      height: 20px;
+      background: linear-gradient(180deg, #ffd166, #ffb703);
+      border-radius: 999px;
+    }
+
+    .box-lid::before { left: 34px; transform: rotate(-10deg); }
+    .box-lid::after { right: 34px; transform: rotate(10deg); }
+
+    .box-body {
+      position: absolute;
+      left: 22px;
+      top: 62px;
+      width: 196px;
+      height: 138px;
+      background: linear-gradient(180deg, #ff9f6e, #ff6b6b);
+      border-radius: 16px 16px 22px 22px;
+      box-shadow: 0 18px 32px rgba(239,68,68,0.28);
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.46);
+    }
+
+    .box-body::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 0;
+      width: 32px;
+      height: 100%;
+      background: linear-gradient(180deg, #ffe08a, #ffc233);
+    }
+
+    .box-body::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 26px;
+      transform: translateY(-50%);
+      background: linear-gradient(90deg, #ffe08a, #ffc233);
+    }
+
+    .box-question {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 56px;
+      color: rgba(255,255,255,0.95);
+      font-weight: 900;
+      z-index: 4;
+      text-shadow: 0 6px 20px rgba(0,0,0,0.12);
+      pointer-events: none;
+    }
+
+    .rolling-board {
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(255,255,255,0.8);
+      border-radius: 22px;
+      padding: 18px 18px 16px;
+      box-shadow: 0 12px 26px rgba(0,0,0,0.08);
+      margin-top: 6px;
+    }
+
+    .rolling-label {
+      font-size: 13px;
+      color: #ef4444;
+      font-weight: 700;
+      letter-spacing: .5px;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .rolling-name {
+      font-size: 28px;
+      font-weight: 900;
+      min-height: 42px;
+      line-height: 1.4;
+    }
+
+    .rolling-tip {
+      margin-top: 8px;
+      color: var(--sub);
+      line-height: 1.8;
+      font-size: 14px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      transition: all .2s ease;
+      font-weight: 800;
+      letter-spacing: .5px;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, #ff6b6b, #ff8c42);
+      color: white;
+      padding: 16px 30px;
+      border-radius: 999px;
+      font-size: 18px;
+      box-shadow: 0 14px 24px rgba(239,68,68,0.28);
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 18px 30px rgba(239,68,68,0.34);
+    }
+
+    .secondary-btn {
+      background: rgba(255,255,255,0.82);
+      color: #ef4444;
+      padding: 16px 24px;
+      border-radius: 999px;
+      font-size: 16px;
+      border: 1px solid rgba(239,68,68,0.15);
+    }
+
+    .secondary-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.95);
+    }
+
+    button:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .tiny-note {
+      margin-top: 14px;
+      color: var(--sub);
+      font-size: 14px;
+      line-height: 1.8;
+      position: relative;
+      z-index: 1;
+    }
+
+    .right-panel {
+      display: grid;
+      grid-template-rows: auto auto;
+      gap: 22px;
+      min-height: 720px;
+    }
+
+    .result-card {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      min-height: 480px;
+    }
+
+    .result-image-wrap {
+      position: relative;
+      background: linear-gradient(135deg, rgba(255,255,255,0.88), rgba(255,245,245,0.7));
+      border-radius: 26px;
+      padding: 14px;
+      min-height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,0.9);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.55);
+      overflow: hidden;
+    }
+
+    .result-image-wrap::before {
+      content: "";
+      position: absolute;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: rgba(255, 223, 128, 0.22);
+      top: -20px;
+      right: -20px;
+      filter: blur(4px);
+    }
+
+    .result-image-wrap::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: rgba(255, 182, 193, 0.2);
+      bottom: -20px;
+      left: -20px;
+      filter: blur(4px);
+    }
+
+    #foodImage {
+      width: 100%;
+      max-height: 430px;
+      object-fit: cover;
+      border-radius: 22px;
+      display: none;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 18px 36px rgba(0,0,0,0.14);
+    }
+
+    .img-fallback {
+      position: absolute;
+      inset: 14px;
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      line-height: 1.8;
+      color: #9ca3af;
+      font-size: 20px;
+      font-weight: 700;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,245,245,0.6)),
+        repeating-linear-gradient(
+          45deg,
+          rgba(255,107,107,0.05) 0px,
+          rgba(255,107,107,0.05) 12px,
+          rgba(255,255,255,0.12) 12px,
+          rgba(255,255,255,0.12) 24px
+        );
+      z-index: 0;
+    }
+
+    .result-label {
+      color: #ef4444;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: .5px;
+      margin-bottom: 8px;
+    }
+
+    .result-title {
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+
+    .result-desc {
+      color: var(--sub);
+      font-size: 16px;
+      line-height: 1.9;
+      margin-bottom: 14px;
+    }
+
+    .quote-box {
+      background: linear-gradient(135deg, rgba(255,255,255,0.88), rgba(255,248,220,0.65));
+      border: 1px solid rgba(255,255,255,0.95);
+      border-radius: 20px;
+      padding: 16px 18px;
+      line-height: 1.8;
+      color: #7c2d12;
+      font-weight: 700;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+    }
+
+    .stats-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .stat-chip {
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(255,255,255,0.95);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+      font-weight: 700;
+      color: #374151;
+    }
+
+    .history-card {
+      min-height: 190px;
+    }
+
+    .history-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .history-item {
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.88), rgba(255,240,245,0.86));
+      border: 1px solid rgba(255,255,255,0.95);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+      font-size: 14px;
+      font-weight: 700;
+      color: #374151;
+    }
+
+    .history-empty {
+      color: #9ca3af;
+      line-height: 1.8;
+    }
+
+    .reveal-glow {
+      animation: revealGlow .9s ease;
+    }
+
+    @keyframes revealGlow {
+      0% {
+        transform: scale(.96);
+        opacity: .6;
+      }
+      60% {
+        transform: scale(1.03);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+      }
+    }
+
+    .confetti-wrap {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 999;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 16px;
+      opacity: .9;
+      top: -20px;
+      animation: confettiFall linear forwards;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(-20px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    .footer-text {
+      text-align: center;
+      margin-top: 18px;
+      color: #9ca3af;
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .main-card {
+        grid-template-columns: 1fr;
+      }
+
+      .left-panel,
+      .right-panel {
+        min-height: auto;
+      }
+
+      .box-stage {
+        min-height: 360px;
+      }
+
+      .ring {
+        width: 290px;
+        height: 290px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: 94%;
+        margin-top: 20px;
+      }
+
+      .panel {
+        padding: 18px;
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .blind-box {
+        transform: scale(.9);
+      }
+
+      .rolling-name {
+        font-size: 22px;
+      }
+
+      .primary-btn,
+      .secondary-btn {
+        width: 100%;
+      }
+
+      .btn-row {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-orb orb1"></div>
+  <div class="floating-orb orb2"></div>
+  <div class="floating-orb orb3"></div>
+
+  <div class="confetti-wrap" id="confettiWrap"></div>
+
+  <div class="container">
+    <div class="hero">
+      <div class="hero-badge">Lunch Blind Box</div>
+      <h1>小杨午餐~</h1>
+      <p>今天中午吃什么？把选择困难症交给盲盒。点击开始抽取，让命运替你安排这一顿。</p>
+    </div>
+
+    <div class="main-card">
+      <div class="panel left-panel">
+        <div class="section-title">今日午餐盲盒</div>
+        <div class="section-subtitle">
+          盲盒里一共放了 16 种午餐。点击按钮后，系统会随机滚动并最终停在其中一种。
+        </div>
+
+        <div class="box-stage">
+          <div class="ring"></div>
+          <div class="spark s1"></div>
+          <div class="spark s2"></div>
+          <div class="spark s3"></div>
+          <div class="spark s4"></div>
+
+          <div class="blind-box" id="blindBox">
+            <div class="box-lid"></div>
+            <div class="box-body"></div>
+            <div class="box-question">?</div>
+          </div>
+        </div>
+
+        <div class="rolling-board">
+          <span class="rolling-label">当前抽取状态</span>
+          <div class="rolling-name" id="rollingName">准备就绪，点击“开始抽取”</div>
+          <div class="rolling-tip" id="rollingTip">
+            温馨提示：每次抽签都会随机定格到 16 个选项中的 1 个。
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="primary-btn" id="drawBtn">开始抽取</button>
+          <button class="secondary-btn" id="resetBtn">清空记录</button>
+        </div>
+
+        <div class="tiny-note">
+          图片文件请与 <b>index.html</b> 放在同一层目录，并命名为 <b>01.jpg ~ 16.jpg</b>。
+        </div>
+      </div>
+
+      <div class="right-panel">
+        <div class="panel result-card" id="resultCard">
+          <div class="result-image-wrap">
+            <img id="foodImage" src="" alt="午餐结果图" />
+            <div class="img-fallback" id="imgFallback">
+              盲盒还没打开<br>等待今日午餐降临
+            </div>
+          </div>
+
+          <div class="result-info">
+            <div class="result-label">今日抽中</div>
+            <div class="result-title" id="foodName">还没开奖</div>
+            <div class="result-desc" id="foodDesc">
+              点击左侧按钮开始抽取，页面会随机滚动，最后停在今天的午餐结果上。
+            </div>
+            <div class="quote-box" id="quoteBox">
+              今日寄语：人生最幸福的瞬间之一，就是中午终于决定吃什么。
+            </div>
+
+            <div class="stats-row">
+              <div class="stat-chip">抽签次数：<span id="drawCount">0</span></div>
+              <div class="stat-chip">候选数量：16</div>
+              <div class="stat-chip">当前模式：随机午餐盲盒</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel history-card">
+          <div class="section-title">最近抽签记录</div>
+          <div class="section-subtitle">
+            这里会显示最近抽到的结果，方便你回看“命运的安排”。
+          </div>
+          <div class="history-list" id="historyList">
+            <div class="history-empty">暂无记录，快开始第一次抽签吧。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-text">Made for 小杨午餐 · GitHub Pages 版盲盒抽签网页</div>
+  </div>
+
+  <script>
+    const foods = [
+      {
+        name: "奥尔良鸡肉披萨",
+        img: "01.jpg",
+        desc: "芝士浓郁、口感丰富，适合想吃点快乐碳水的时候。"
+      },
+      {
+        name: "拌鸡架",
+        img: "02.jpg",
+        desc: "越啃越香，风味很足，属于很上头的一类午餐。"
+      },
+      {
+        name: "大粒牛肉石锅拌饭",
+        img: "03.jpg",
+        desc: "热乎顶饱，牛肉扎实，今天中午可以稳稳吃饱。"
+      },
+      {
+        name: "荷叶烧鸡",
+        img: "04.jpg",
+        desc: "香气足、风味重，适合想吃得满足一点的时候。"
+      },
+      {
+        name: "馄饨",
+        img: "05.jpg",
+        desc: "汤汤水水，清爽顺口，适合想吃温和一点的时候。"
+      },
+      {
+        name: "金枪鱼蔬菜拌饭",
+        img: "06.jpg",
+        desc: "营养均衡，轻盈不腻，属于健康派选手。"
+      },
+      {
+        name: "咖喱鸡排拌饭+爆汁小鸡腿",
+        img: "07.jpg",
+        desc: "咖喱浓郁，鸡排和小鸡腿都很有存在感，满足感很强。"
+      },
+      {
+        name: "肯德基",
+        img: "08.jpg",
+        desc: "经典快餐选手，简单直接，快乐来得很快。"
+      },
+      {
+        name: "螺蛳粉",
+        img: "09.jpg",
+        desc: "味道浓烈但快乐直接，喜欢的人会非常坚定。"
+      },
+      {
+        name: "麻辣烫",
+        img: "10.jpg",
+        desc: "热辣鲜香，食材丰富，想吃什么都能往里加。"
+      },
+      {
+        name: "麻辣香锅",
+        img: "11.jpg",
+        desc: "香辣过瘾，层次丰富，适合今天狠狠干饭。"
+      },
+      {
+        name: "冒菜",
+        img: "12.jpg",
+        desc: "热辣但不过分厚重，介于麻辣烫和香锅之间。"
+      },
+      {
+        name: "米线",
+        img: "13.jpg",
+        desc: "顺滑好入口，热热乎乎，是不容易出错的选择。"
+      },
+      {
+        name: "牛肉鱿鱼炒饭",
+        img: "14.jpg",
+        desc: "牛肉和鱿鱼双重加持，口感丰富，炒饭党很难拒绝。"
+      },
+      {
+        name: "烧麦+皮蛋瘦肉粥",
+        img: "15.jpg",
+        desc: "稳妥舒服，咸香顺口，适合想吃得柔和一点的时候。"
+      },
+      {
+        name: "照烧鸡腿饭",
+        img: "16.jpg",
+        desc: "鸡腿入味又下饭，是很稳的一顿午餐选择。"
+      }
+    ];
+
+    const quotes = [
+      "今日寄语：不必纠结，抽到什么就香什么。",
+      "今日寄语：宇宙已经替你做出午餐选择。",
+      "今日寄语：每一顿随机，都是生活的小惊喜。",
+      "今日寄语：让盲盒决定午餐，是对选择困难症最大的尊重。",
+      "今日寄语：今天不是你选饭，是饭选中了你。",
+      "今日寄语：午餐这件事，交给运气通常比纠结更快乐。",
+      "今日寄语：抽中了就去吃，别再想别的了。"
+    ];
+
+    const drawBtn = document.getElementById("drawBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const blindBox = document.getElementById("blindBox");
+    const rollingName = document.getElementById("rollingName");
+    const rollingTip = document.getElementById("rollingTip");
+    const foodImage = document.getElementById("foodImage");
+    const imgFallback = document.getElementById("imgFallback");
+    const foodName = document.getElementById("foodName");
+    const foodDesc = document.getElementById("foodDesc");
+    const quoteBox = document.getElementById("quoteBox");
+    const drawCount = document.getElementById("drawCount");
+    const historyList = document.getElementById("historyList");
+    const resultCard = document.getElementById("resultCard");
+    const confettiWrap = document.getElementById("confettiWrap");
+
+    let isDrawing = false;
+    let totalDrawCount = 0;
+    let history = [];
+    let lastIndex = -1;
+
+    function randomInt(max) {
+      return Math.floor(Math.random() * max);
+    }
+
+    function getRandomIndexAvoidRepeat() {
+      if (foods.length <= 1) return 0;
+      let index;
+      do {
+        index = randomInt(foods.length);
+      } while (index === lastIndex);
+      return index;
+    }
+
+    function updateImage(src, altText) {
+      foodImage.style.display = "block";
+      imgFallback.style.display = "none";
+      foodImage.src = src;
+      foodImage.alt = altText;
+
+      foodImage.onerror = function () {
+        foodImage.style.display = "none";
+        imgFallback.style.display = "flex";
+        imgFallback.innerHTML = "图片加载失败<br>请检查文件名是否与代码一致";
+      };
+    }
+
+    function getRandomQuote() {
+      return quotes[randomInt(quotes.length)];
+    }
+
+    function renderHistory() {
+      if (history.length === 0) {
+        historyList.innerHTML = '<div class="history-empty">暂无记录，快开始第一次抽签吧。</div>';
+        return;
+      }
+
+      historyList.innerHTML = history
+        .map(item => `<div class="history-item">${item}</div>`)
+        .join("");
+    }
+
+    function launchConfetti() {
+      confettiWrap.innerHTML = "";
+      const colors = ["#ff6b6b", "#ffd166", "#f59e0b", "#ec4899", "#60a5fa", "#34d399"];
+
+      for (let i = 0; i < 70; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti";
+        piece.style.left = Math.random() * 100 + "vw";
+        piece.style.background = colors[randomInt(colors.length)];
+        piece.style.width = 6 + Math.random() * 8 + "px";
+        piece.style.height = 10 + Math.random() * 14 + "px";
+        piece.style.animationDuration = 2.6 + Math.random() * 2 + "s";
+        piece.style.animationDelay = Math.random() * 0.5 + "s";
+        piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+        confettiWrap.appendChild(piece);
+      }
+
+      setTimeout(() => {
+        confettiWrap.innerHTML = "";
+      }, 5000);
+    }
+
+    function revealFood(index) {
+      const item = foods[index];
+      lastIndex = index;
+      totalDrawCount++;
+      drawCount.textContent = totalDrawCount;
+
+      rollingName.textContent = item.name;
+      rollingTip.textContent = "开奖完成，今日午餐已锁定。";
+      foodName.textContent = item.name;
+      foodDesc.textContent = item.desc;
+      quoteBox.textContent = getRandomQuote();
+
+      updateImage(item.img, item.name);
+
+      history.unshift(item.name);
+      history = history.slice(0, 8);
+      renderHistory();
+
+      resultCard.classList.remove("reveal-glow");
+      void resultCard.offsetWidth;
+      resultCard.classList.add("reveal-glow");
+
+      launchConfetti();
+    }
+
+    function startDraw() {
+      if (isDrawing) return;
+
+      isDrawing = true;
+      drawBtn.disabled = true;
+      blindBox.classList.add("spinning");
+
+      rollingTip.textContent = "盲盒正在疯狂摇晃中，请等待随机结果定格……";
+
+      const finalIndex = getRandomIndexAvoidRepeat();
+      let elapsed = 0;
+      let delay = 80;
+
+      function rollStep() {
+        const tempIndex = randomInt(foods.length);
+        rollingName.textContent = foods[tempIndex].name;
+
+        if (elapsed >= 2800) {
+          blindBox.classList.remove("spinning");
+          revealFood(finalIndex);
+          isDrawing = false;
+          drawBtn.disabled = false;
+          return;
+        }
+
+        elapsed += delay;
+        delay = Math.min(delay * 1.12, 260);
+        setTimeout(rollStep, delay);
+      }
+
+      rollStep();
+    }
+
+    function resetAll() {
+      history = [];
+      totalDrawCount = 0;
+      drawCount.textContent = "0";
+      rollingName.textContent = "准备就绪，点击“开始抽取”";
+      rollingTip.textContent = "温馨提示：每次抽签都会随机定格到 16 个选项中的 1 个。";
+      foodName.textContent = "还没开奖";
+      foodDesc.textContent = "点击左侧按钮开始抽取，页面会随机滚动，最后停在今天的午餐结果上。";
+      quoteBox.textContent = "今日寄语：人生最幸福的瞬间之一，就是中午终于决定吃什么。";
+      foodImage.style.display = "none";
+      imgFallback.style.display = "flex";
+      imgFallback.innerHTML = "盲盒还没打开<br>等待今日午餐降临";
+      renderHistory();
+    }
+
+    drawBtn.addEventListener("click", startDraw);
+    resetBtn.addEventListener("click", resetAll);
+
+    renderHistory();
+  </script>
+</body>
+</html>
